@@ -77,7 +77,6 @@ fn part1(input: &Vec<Vec<Vec<i32>>>) {
 }
 
 fn part2(input: &Vec<Vec<Vec<i32>>>) {
-    let bag = vec![12, 13, 14];
     let mut power: i32 = 0;
 
     for game in input {
