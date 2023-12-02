@@ -4,10 +4,12 @@ fn main() {
     let contents =
         fs::read_to_string("src/input.txt").expect("Should have been able to read the file");
 
-    part1(&contents);
+    let data = prepare(&contents);
+    part1(&data);
+    part2(&data);
 }
 
-fn part1(input: &str) {
+fn prepare(input: &str) -> Vec<Vec<Vec<i32>>> {
     let lines: Vec<&str> = input.lines().collect();
 
     // Prepare data structure with game data
@@ -49,12 +51,16 @@ fn part1(input: &str) {
         })
         .collect();
 
+    game_data
+}
+
+fn part1(input: &Vec<Vec<Vec<i32>>>) {
     // Calculate solution
     // [red, green, blue]
     let bag = vec![12, 13, 14];
     let mut sum: i32 = 0;
 
-    for (i, game) in game_data.iter().enumerate() {
+    for (i, game) in input.iter().enumerate() {
         let mut game_impossible = false;
         for showing in game {
             if !((showing[0] <= bag[0]) && (showing[1] <= bag[1]) && (showing[2] <= bag[2])) {
@@ -68,4 +74,29 @@ fn part1(input: &str) {
         }
     }
     println!("Sum Part 1: {}", sum);
+}
+
+fn part2(input: &Vec<Vec<Vec<i32>>>) {
+    let bag = vec![12, 13, 14];
+    let mut power: i32 = 0;
+
+    for game in input {
+        let mut min = vec![0, 0, 0];
+        
+        for showing in game {
+            if showing[0] > min[0] {
+                min[0] = showing[0];
+            }
+            if showing[1] > min[1] {
+                min[1] = showing[1];
+            }
+            if showing[2] > min[2] {
+                min[2] = showing[2];
+            }
+        }
+
+        power = power + min.iter().product::<i32>();
+
+    }
+    println!("Power Part 2: {}", power);
 }
